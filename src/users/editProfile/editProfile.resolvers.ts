@@ -1,14 +1,14 @@
-import client from '../../client';
 import { deleteFromS3, uploadToS3 } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../users.utils';
 import bcrypt from 'bcrypt';
+import client from '../../client';
 
 const resolvers: Resolvers = {
   Mutation: {
     editProfile: resolverProtected(
-      async (_, { name, password, avatar, zones, posts }, { loggedInUser }) => {
-        let newAvatar = null;
+      async (_, { name, password, avatar }, { loggedInUser }) => {
+        let newAvatar;
         try {
           if (avatar) {
             const user = await client.user.findUnique({

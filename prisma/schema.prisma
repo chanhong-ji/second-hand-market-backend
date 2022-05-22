@@ -28,12 +28,13 @@ model User {
 model Post {
   id         Int      @id @default(autoincrement())
   caption    String
+  photos     String[]
   dealt      Boolean  @default(false)
   user       User?    @relation(fields: [userId], references: [id])
   userId     Int?
   zone       Zone     @relation(fields: [zoneId], references: [id])
   zoneId     Int
-  cateogory  Category @relation(fields: [categoryId], references: [id])
+  category   Category @relation(fields: [categoryId], references: [id])
   categoryId Int
   createdAt  DateTime @default(now())
   updatedAt  DateTime @updatedAt
