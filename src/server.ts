@@ -1,14 +1,21 @@
-import { ApolloServer } from "apollo-server-express";
-import { ApolloServerPluginDrainHttpServer } from "apollo-server-core";
-import express from "express";
-import http from "http";
-import schema from "./schema";
+import { ApolloServer } from 'apollo-server-express';
+import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
+import express from 'express';
+import http from 'http';
+import schema from './schema';
+import { getMeUser } from './users/users.utils';
 
 async function startApolloServer() {
   const app = express();
   const httpServer = http.createServer(app);
   const server = new ApolloServer({
     schema,
+    context: async ({ req }) => {
+      const { token } = req.headers;
+      if (token && typeof token === 'string') {
+        return { loggedInUser: await getMeUser(token) };
+      }
+    },
     plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
   });
 
