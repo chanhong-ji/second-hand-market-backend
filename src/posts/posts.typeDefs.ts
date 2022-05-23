@@ -3,11 +3,12 @@ import { gql } from 'apollo-server-core';
 export default gql`
   type Post {
     id: Int!
+    title: String!
     caption: String!
     dealt: Boolean!
     user: User!
-    photos: [Upload!]
-    zone: Zone
+    photos: [String]
+    zone: Zone!
     category: Category
     createdAt: String!
     updatedAt: String!

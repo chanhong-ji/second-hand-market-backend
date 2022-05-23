@@ -3,7 +3,22 @@ import { Resolvers } from '../types';
 
 const resolvers: Resolvers = {
   Post: {
-    isMine: ({ id, userId, zoneId, dealt }, _, { loggedInUser }) =>
+    user: ({ userId }) =>
+      client.user.findUnique({
+        where: { id: userId },
+        select: { id: true, name: true, avatar: true },
+      }),
+    zone: ({ zoneId }) =>
+      client.zone.findUnique({
+        where: { id: zoneId },
+        select: { name: true, id: true },
+      }),
+    category: ({ categoryId }) =>
+      client.category.findUnique({
+        where: { id: categoryId },
+        select: { id: true, name: true },
+      }),
+    isMine: ({ userId }, _, { loggedInUser }) =>
       Boolean(userId === loggedInUser?.id),
     isInterest: async ({ id }, _, { loggedInUser }) => {
       if (!loggedInUser) return false;
@@ -21,6 +36,10 @@ const resolvers: Resolvers = {
     },
     interestsCount: ({ id }) =>
       client.interest.count({ where: { postId: id } }),
+  },
+
+  Category: {
+    countPost: ({ id }) => client.post.count({ where: { categoryId: id } }),
   },
 };
 

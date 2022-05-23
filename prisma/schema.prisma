@@ -13,16 +13,17 @@ model User {
   phone     Int        @unique
   password  String
   avatar    String?
-  ownerId   Int?
   onwer     User?      @relation("OwnerFollowing", fields: [ownerId], references: [id])
   following User[]     @relation("OwnerFollowing")
   posts     Post[]
-  zones     Zone[]
+  zone      Zone?      @relation(fields: [zoneId], references: [id])
   rooms     Room[]
   messages  Message[]
   interests Interest[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
+  zoneId    Int?
+  ownerId   Int?
 }
 
 model Post {
@@ -32,14 +33,14 @@ model Post {
   photos     String[]
   dealt      Boolean    @default(false)
   user       User?      @relation(fields: [userId], references: [id])
-  userId     Int?
   zone       Zone       @relation(fields: [zoneId], references: [id])
-  zoneId     Int
   category   Category   @relation(fields: [categoryId], references: [id])
-  categoryId Int
   Interest   Interest[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
+  userId     Int?
+  zoneId     Int
+  categoryId Int
 }
 
 model Zone {
@@ -53,12 +54,12 @@ model Zone {
 
 model Interest {
   id        Int      @id @default(autoincrement())
-  post      Post     @relation(fields: [postId], references: [id])
-  postId    Int
-  user      User     @relation(fields: [userId], references: [id])
-  userId    Int
+  post      Post     @relation(fields: [postId], references: [id], onDelete: Cascade)
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+  postId    Int
+  userId    Int
 
   @@unique([postId, userId])
 }
@@ -82,8 +83,8 @@ model Room {
 model Message {
   id        Int      @id @default(autoincrement())
   payload   String
-  user      User     @relation(fields: [userId], references: [id])
-  room      Room     @relation(fields: [roomId], references: [id])
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+  room      Room     @relation(fields: [roomId], references: [id], onDelete: Cascade)
   read      Boolean  @default(false)
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt

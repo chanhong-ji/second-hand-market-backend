@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
           if (avatar) {
             const user = await client.user.findUnique({
               where: { id: loggedInUser.id },
-              select: { id: true, avatar: true, zones: true, posts: true },
+              select: { id: true, avatar: true, posts: true },
             });
             try {
               if (user?.avatar) await deleteFromS3(user.avatar);

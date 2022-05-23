@@ -6,10 +6,9 @@ export default gql`
     name: String!
     phone: Int!
     avatar: String
-    following: [User]
-    # posts: [Post]
-    # zones: [Zone]
-    # interests: [Post]
+    followingCount: Int!
+    zone: Zone
+    posts(offset: Int): [Post]
     createdAt: String!
     updatedAt: String!
   }
