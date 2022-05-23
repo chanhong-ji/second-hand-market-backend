@@ -1,4 +1,5 @@
 import { User } from '@prisma/client';
+import { GraphQLScalarType } from 'graphql';
 
 type Context = {
   loggedInUser: User;

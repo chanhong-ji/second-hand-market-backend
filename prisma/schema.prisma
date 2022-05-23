@@ -26,18 +26,20 @@ model User {
 }
 
 model Post {
-  id         Int      @id @default(autoincrement())
+  id         Int        @id @default(autoincrement())
+  title      String
   caption    String
   photos     String[]
-  dealt      Boolean  @default(false)
-  user       User?    @relation(fields: [userId], references: [id])
+  dealt      Boolean    @default(false)
+  user       User?      @relation(fields: [userId], references: [id])
   userId     Int?
-  zone       Zone     @relation(fields: [zoneId], references: [id])
+  zone       Zone       @relation(fields: [zoneId], references: [id])
   zoneId     Int
-  category   Category @relation(fields: [categoryId], references: [id])
+  category   Category   @relation(fields: [categoryId], references: [id])
   categoryId Int
-  createdAt  DateTime @default(now())
-  updatedAt  DateTime @updatedAt
+  Interest   Interest[]
+  createdAt  DateTime   @default(now())
+  updatedAt  DateTime   @updatedAt
 }
 
 model Zone {
@@ -51,10 +53,14 @@ model Zone {
 
 model Interest {
   id        Int      @id @default(autoincrement())
+  post      Post     @relation(fields: [postId], references: [id])
+  postId    Int
   user      User     @relation(fields: [userId], references: [id])
-  userId    Int      @unique
+  userId    Int
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt
+
+  @@unique([postId, userId])
 }
 
 model Category {

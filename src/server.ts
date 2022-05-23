@@ -1,9 +1,11 @@
+import 'dotenv/config';
 import { ApolloServer } from 'apollo-server-express';
 import { ApolloServerPluginDrainHttpServer } from 'apollo-server-core';
 import express from 'express';
 import http from 'http';
 import schema from './schema';
 import { getMeUser } from './users/users.utils';
+import { graphqlUploadExpress } from 'graphql-upload';
 
 async function startApolloServer() {
   const app = express();
@@ -20,6 +22,7 @@ async function startApolloServer() {
   });
 
   await server.start();
+  app.use(graphqlUploadExpress());
   server.applyMiddleware({ app });
   await new Promise((resolve: any) =>
     httpServer.listen({ port: 4000 }, resolve)
