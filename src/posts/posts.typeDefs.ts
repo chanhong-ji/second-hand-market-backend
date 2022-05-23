@@ -24,4 +24,13 @@ export default gql`
     createdAt: String!
     updatedAt: String!
   }
+
+  type Zone {
+    id: Int!
+    name: String!
+    countUser: Int!
+    countPost: Int!
+    createdAt: String!
+    updatedAt: String!
+  }
 `;
