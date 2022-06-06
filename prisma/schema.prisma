@@ -16,13 +16,13 @@ model User {
   onwer     User?      @relation("OwnerFollowing", fields: [ownerId], references: [id])
   following User[]     @relation("OwnerFollowing")
   posts     Post[]
-  zone      Zone?      @relation(fields: [zoneId], references: [id])
+  zone      Zone       @relation(fields: [zoneId], references: [id])
   rooms     Room[]
   messages  Message[]
   interests Interest[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  zoneId    Int?
+  zoneId    Int
   ownerId   Int?
 }
 

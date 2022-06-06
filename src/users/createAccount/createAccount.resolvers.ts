@@ -4,7 +4,7 @@ import bcrypt from 'bcrypt';
 
 const resolvers: Resolvers = {
   Mutation: {
-    createAccount: async (_, { name, password, phone }) => {
+    createAccount: async (_, { name, password, phone, zoneId }) => {
       try {
         const existingUser = await client.user.findFirst({
           where: {
@@ -20,6 +20,7 @@ const resolvers: Resolvers = {
             name,
             password: hashedPassword,
             phone,
+            zone: { connect: { id: zoneId } },
           },
         });
         return { ok: true };

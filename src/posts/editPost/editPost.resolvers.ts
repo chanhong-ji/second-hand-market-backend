@@ -8,7 +8,7 @@ const resolvers: Resolvers = {
     editPost: resolverProtected(
       async (
         _,
-        { id, title, caption, photos: newPhotos, zoneId, categoryId },
+        { id, title, caption, photos: newPhotos, categoryId },
         { loggedInUser }
       ) => {
         try {
@@ -47,11 +47,6 @@ const resolvers: Resolvers = {
               title,
               caption,
               photos: photoUrls,
-              ...(zoneId && {
-                zone: {
-                  connect: { id: zoneId },
-                },
-              }),
               ...(categoryId && {
                 category: {
                   connect: { id: categoryId },

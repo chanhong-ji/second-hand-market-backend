@@ -8,7 +8,8 @@ export default gql`
     avatar: String
     followingCount: Int!
     postsCount: Int!
-    zone: Zone
+    zone: Zone!
+    zoneId: Int!
     posts(offset: Int): [Post]
     createdAt: String!
     updatedAt: String!

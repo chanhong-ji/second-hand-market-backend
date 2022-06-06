@@ -7,7 +7,7 @@ import client from '../../client';
 const resolvers: Resolvers = {
   Mutation: {
     editProfile: resolverProtected(
-      async (_, { name, password, avatar }, { loggedInUser }) => {
+      async (_, { name, password, avatar, zoneId }, { loggedInUser }) => {
         let newAvatar;
         try {
           if (avatar) {
@@ -35,6 +35,7 @@ const resolvers: Resolvers = {
             name,
             ...(password && { password: await bcrypt.hash(password, 5) }),
             ...(newAvatar && { avatar: newAvatar }),
+            ...(zoneId && { zoneId }),
           },
         });
         return { ok: true };

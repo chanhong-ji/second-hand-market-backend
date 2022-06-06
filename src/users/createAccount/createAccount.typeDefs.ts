@@ -6,6 +6,7 @@ export default gql`
       name: String!
       password: String!
       phone: Int!
+      zoneId: Int!
     ): MutationResult!
   }
 `;

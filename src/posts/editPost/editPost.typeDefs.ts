@@ -7,7 +7,6 @@ export default gql`
       title: String
       caption: String
       photos: [Upload]
-      zoneId: Int
       categoryId: Int
     ): MutationResult!
   }
