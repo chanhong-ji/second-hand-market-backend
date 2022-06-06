@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "dev": "nodemon --exec ts-node src/server.ts",
+    "dev": "nodemon --exec ts-node src/server.ts --delay 2",
     "migrate": "npx prisma migrate dev",
     "studio": "npx prisma studio"
   },

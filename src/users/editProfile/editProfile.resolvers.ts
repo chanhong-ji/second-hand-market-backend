@@ -23,7 +23,10 @@ const resolvers: Resolvers = {
             }
           }
         } catch (error) {
-          return { ok: false, error: `DB error: ${error}` };
+          return {
+            ok: false,
+            error: `DB error from editProfile resolver:${error}`,
+          };
         }
 
         await client.user.update({
@@ -34,6 +37,7 @@ const resolvers: Resolvers = {
             ...(newAvatar && { avatar: newAvatar }),
           },
         });
+        return { ok: true };
       }
     ),
   },

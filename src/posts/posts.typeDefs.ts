@@ -7,9 +7,9 @@ export default gql`
     caption: String!
     dealt: Boolean!
     user: User!
-    photos: [String]
+    photos: [String!]!
     zone: Zone!
-    category: Category
+    category: Category!
     createdAt: String!
     updatedAt: String!
     isMine: Boolean!

@@ -31,7 +31,10 @@ const resolvers: Resolvers = {
           throw new Error('Wrong Password');
         }
       } catch (error) {
-        return { ok: false, error: `DB error: ${error}` };
+        return {
+          ok: false,
+          error: `DB error from login resolver:${error}`,
+        };
       }
     },
   },

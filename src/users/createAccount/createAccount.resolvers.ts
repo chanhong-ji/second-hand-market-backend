@@ -24,7 +24,10 @@ const resolvers: Resolvers = {
         });
         return { ok: true };
       } catch (error) {
-        return { ok: false, error };
+        return {
+          ok: false,
+          error: `DB error from createAccount resolver:${error}`,
+        };
       }
     },
   },

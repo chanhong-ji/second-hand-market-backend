@@ -31,7 +31,10 @@ const resolvers: Resolvers = {
         }
         return { ok: true };
       } catch (error) {
-        return { ok: false, error: `DB error: ${error}` };
+        return {
+          ok: false,
+          error: `DB error from toggleFoolow resolver:${error}`,
+        };
       }
     }),
   },

@@ -24,7 +24,10 @@ const resolvers: Resolvers = {
             photoUrls.push(location);
           }
         } catch (error) {
-          return { ok: false, error: `S3 error: ${error}` };
+          return {
+            ok: false,
+            error: `S3 error from createPost resolver:${error}`,
+          };
         }
 
         try {
@@ -41,7 +44,10 @@ const resolvers: Resolvers = {
           });
           return { ok: true };
         } catch (error) {
-          return { ok: false, error: `DB error: ${error}` };
+          return {
+            ok: false,
+            error: `DB error from createPost resolver:${error}`,
+          };
         }
       }
     ),

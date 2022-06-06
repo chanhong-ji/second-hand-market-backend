@@ -26,7 +26,7 @@ export const resolverProtected =
       if (info.operation.operation === 'query') return null;
       return {
         ok: false,
-        error: 'Not authorized. Blocked by protected resolver',
+        error: `DB error from protected resolver: Not authorized. Blocked by protected resolver`,
       };
     } else {
       return resolver(root, args, context, info);
