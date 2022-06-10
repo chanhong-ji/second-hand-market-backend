@@ -1,4 +1,5 @@
 import AWS from 'aws-sdk';
+import { zoneFirst, zoneSecond } from './zones';
 AWS.config.update({
   credentials: {
     accessKeyId: process.env.AWS_KEY,
@@ -31,4 +32,12 @@ export const deleteFromS3 = async (fileUrl: string) => {
       Key: objectName,
     })
     .promise();
+};
+
+export const zoneProcess = (zoneId: number) => {
+  const zoneN = String(zoneId);
+  const second = zoneN.slice(-2);
+  const first = zoneN.slice(0, -2);
+  const zoneName = zoneFirst[+first] + ' ' + zoneSecond[+first][+second];
+  return zoneName;
 };

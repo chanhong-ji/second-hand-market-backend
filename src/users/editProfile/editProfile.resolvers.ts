@@ -1,4 +1,4 @@
-import { deleteFromS3, uploadToS3 } from '../../shared.utils';
+import { deleteFromS3, uploadToS3, zoneProcess } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../users.utils';
 import bcrypt from 'bcrypt';
@@ -28,14 +28,27 @@ const resolvers: Resolvers = {
             error: `DB error from editProfile resolver:${error}`,
           };
         }
+        console.log(zoneId);
+
+        const zoneName = zoneProcess(zoneId);
 
         await client.user.update({
           where: { id: loggedInUser.id },
           data: {
             name,
+            zone: {
+              connectOrCreate: {
+                where: {
+                  id: zoneId,
+                },
+                create: {
+                  id: zoneId,
+                  name: zoneName,
+                },
+              },
+            },
             ...(password && { password: await bcrypt.hash(password, 5) }),
             ...(newAvatar && { avatar: newAvatar }),
-            ...(zoneId && { zoneId }),
           },
         });
         return { ok: true };

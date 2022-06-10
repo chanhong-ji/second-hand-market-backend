@@ -44,7 +44,7 @@ model Post {
 }
 
 model Zone {
-  id        Int      @id @default(autoincrement())
+  id        Int      @id
   name      String   @unique
   users     User[]
   posts     Post[]
