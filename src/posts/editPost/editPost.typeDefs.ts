@@ -6,7 +6,7 @@ export default gql`
       id: Int!
       title: String
       caption: String
-      categoryId: Int
+      categoryName: String
       price: Int
     ): MutationResult!
   }

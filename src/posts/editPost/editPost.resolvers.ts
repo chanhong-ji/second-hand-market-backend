@@ -8,7 +8,7 @@ const resolvers: Resolvers = {
     editPost: resolverProtected(
       async (
         _,
-        { id, title, caption, categoryId, price },
+        { id, title, caption, categoryName, price },
         { loggedInUser }
       ) => {
         try {
@@ -39,16 +39,17 @@ const resolvers: Resolvers = {
           // }
 
           await client.post.update({
-            where: { id },
+            where: {
+              id,
+            },
             data: {
               title,
               caption,
-              // photos: photoUrls,
-              ...(categoryId && {
-                category: {
-                  connect: { id: categoryId },
+              category: {
+                connect: {
+                  name: categoryName,
                 },
-              }),
+              },
               price,
             },
           });

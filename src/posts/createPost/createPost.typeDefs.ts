@@ -7,7 +7,7 @@ export default gql`
       caption: String!
       price: Int!
       photos: [Upload!]!
-      categoryId: Int!
+      categoryName: String!
     ): MutationResult!
   }
 `;
