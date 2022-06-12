@@ -8,7 +8,7 @@ const resolvers: Resolvers = {
     createPost: resolverProtected(
       async (
         _,
-        { title, caption, photos: newPhotos, categoryId },
+        { title, caption, price, photos: newPhotos, categoryId },
         { loggedInUser }
       ) => {
         if (newPhotos?.length > 3)
@@ -35,6 +35,7 @@ const resolvers: Resolvers = {
             data: {
               title,
               caption,
+              price,
               photos: photoUrls,
               zone: { connect: { id: loggedInUser.zoneId } },
               dealt: false,

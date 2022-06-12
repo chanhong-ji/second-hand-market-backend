@@ -6,7 +6,11 @@ import { resolverProtected } from '../../users/users.utils';
 const resolvers: Resolvers = {
   Mutation: {
     editPost: resolverProtected(
-      async (_, { id, title, caption, categoryId }, { loggedInUser }) => {
+      async (
+        _,
+        { id, title, caption, categoryId, price },
+        { loggedInUser }
+      ) => {
         try {
           const prevPost = await client.post.findUnique({
             where: { id },
@@ -45,6 +49,7 @@ const resolvers: Resolvers = {
                   connect: { id: categoryId },
                 },
               }),
+              price,
             },
           });
           return { ok: true };

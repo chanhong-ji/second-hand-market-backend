@@ -7,6 +7,7 @@ export default gql`
       title: String
       caption: String
       categoryId: Int
+      price: Int
     ): MutationResult!
   }
 `;

@@ -28,9 +28,6 @@ const resolvers: Resolvers = {
             error: `DB error from editProfile resolver:${error}`,
           };
         }
-        console.log(zoneId);
-
-        const zoneName = zoneProcess(zoneId);
 
         await client.user.update({
           where: { id: loggedInUser.id },
@@ -43,7 +40,7 @@ const resolvers: Resolvers = {
                 },
                 create: {
                   id: zoneId,
-                  name: zoneName,
+                  name: zoneProcess(zoneId),
                 },
               },
             },

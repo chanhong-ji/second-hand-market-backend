@@ -1,3 +1,0 @@
--- AlterTable
-ALTER TABLE "Zone" ALTER COLUMN "id" DROP DEFAULT;
-DROP SEQUENCE "Zone_id_seq";

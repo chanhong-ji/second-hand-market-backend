@@ -5,6 +5,7 @@ export default gql`
     id: Int!
     title: String!
     caption: String!
+    price: Int!
     dealt: Boolean!
     user: User!
     photos: [String!]!

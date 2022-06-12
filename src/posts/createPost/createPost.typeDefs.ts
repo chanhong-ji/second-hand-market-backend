@@ -5,6 +5,7 @@ export default gql`
     createPost(
       title: String!
       caption: String!
+      price: Int!
       photos: [Upload!]!
       categoryId: Int!
     ): MutationResult!

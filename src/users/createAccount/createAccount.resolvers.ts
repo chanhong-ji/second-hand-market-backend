@@ -1,6 +1,7 @@
 import client from '../../client';
 import { Resolvers } from '../../types';
 import bcrypt from 'bcrypt';
+import { zoneProcess } from '../../shared.utils';
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -15,12 +16,23 @@ const resolvers: Resolvers = {
           throw new Error('Account already exists with this phone number');
 
         const hashedPassword = await bcrypt.hash(password, 10);
+
         await client.user.create({
           data: {
             name,
             password: hashedPassword,
             phone,
-            zone: { connect: { id: zoneId } },
+            zone: {
+              connectOrCreate: {
+                where: {
+                  id: zoneId,
+                },
+                create: {
+                  id: zoneId,
+                  name: zoneProcess(zoneId),
+                },
+              },
+            },
           },
         });
         return { ok: true };
