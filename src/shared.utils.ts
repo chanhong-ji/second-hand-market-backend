@@ -1,5 +1,5 @@
 import AWS from 'aws-sdk';
-import { zoneFirst, zoneSecond } from './zones';
+import { zoneFirst, zoneSecond } from './dataList';
 AWS.config.update({
   credentials: {
     accessKeyId: process.env.AWS_KEY,
@@ -34,10 +34,18 @@ export const deleteFromS3 = async (fileUrl: string) => {
     .promise();
 };
 
-export const zoneProcess = (zoneId: number) => {
-  const zoneN = String(zoneId);
-  const second = zoneN.slice(-2);
-  const first = zoneN.slice(0, -2);
-  const zoneName = zoneFirst[+first] + ' ' + zoneSecond[+first][+second];
-  return zoneName;
+export const zoneNameProcess = (zoneId: string) => {
+  const first = zoneId.slice(0, -2);
+  const second = zoneId.slice(-2);
+  const a = zoneFirst[+first];
+  const b = zoneSecond[+first][+second];
+  if (a && b) {
+    return a + ' ' + b;
+  } else {
+    return false;
+  }
+};
+
+export const zoneIdProcess = (first: number, second: number): string => {
+  return String(first) + String(second).padStart(2, '0');
 };

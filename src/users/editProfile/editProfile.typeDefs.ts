@@ -6,7 +6,8 @@ export default gql`
       name: String
       password: String
       avatar: Upload
-      zoneId: Int
+      zoneFirst: Int!
+      zoneSecond: Int!
     ): MutationResult!
   }
 `;

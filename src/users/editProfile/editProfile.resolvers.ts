@@ -1,4 +1,4 @@
-import { deleteFromS3, uploadToS3, zoneProcess } from '../../shared.utils';
+import { deleteFromS3, uploadToS3, zoneIdProcess } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../users.utils';
 import bcrypt from 'bcrypt';
@@ -7,7 +7,11 @@ import client from '../../client';
 const resolvers: Resolvers = {
   Mutation: {
     editProfile: resolverProtected(
-      async (_, { name, password, avatar, zoneId }, { loggedInUser }) => {
+      async (
+        _,
+        { name, password, avatar, zoneFirst, zoneSecond },
+        { loggedInUser }
+      ) => {
         let newAvatar;
         try {
           if (avatar) {
@@ -33,17 +37,7 @@ const resolvers: Resolvers = {
           where: { id: loggedInUser.id },
           data: {
             name,
-            zone: {
-              connectOrCreate: {
-                where: {
-                  id: zoneId,
-                },
-                create: {
-                  id: zoneId,
-                  name: zoneProcess(zoneId),
-                },
-              },
-            },
+            zoneId: zoneIdProcess(zoneFirst, zoneSecond),
             ...(password && { password: await bcrypt.hash(password, 5) }),
             ...(newAvatar && { avatar: newAvatar }),
           },

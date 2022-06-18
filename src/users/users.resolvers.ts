@@ -1,7 +1,7 @@
 import client from '../client';
 import { Resolvers } from '../types';
 
-const POST_N = 5;
+const PER_PAGE = 9;
 
 const resolvers: Resolvers = {
   User: {
@@ -12,18 +12,31 @@ const resolvers: Resolvers = {
         },
       }),
 
+    dealtCount: ({ id }) =>
+      client.post.count({
+        where: {
+          userId: id,
+          dealt: true,
+        },
+      }),
+
     zone: ({ id }) =>
       client.user
         .findUnique({ where: { id }, select: { id: true } })
         .zone({ select: { id: true, name: true } }),
+    zoneFirst: ({ zoneId }) => +zoneId.slice(0, -2),
+    zoneSecond: ({ zoneId }) => +zoneId.slice(-2),
 
     postsCount: ({ id }) => client.post.count({ where: { userId: id } }),
 
     posts: ({ id }, { offset }) =>
       client.post.findMany({
         where: { userId: id },
-        take: POST_N,
+        take: PER_PAGE,
         skip: offset ?? 0,
+        orderBy: {
+          createdAt: 'desc',
+        },
       }),
 
     isMe: ({ id }, _, { loggedInUser }) => Boolean(id === loggedInUser?.id),

@@ -28,6 +28,7 @@ export default gql`
 
   type Zone {
     id: Int!
+    code: Int!
     name: String!
     countUser: Int!
     countPost: Int!

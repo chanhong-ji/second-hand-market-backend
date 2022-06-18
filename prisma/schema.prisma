@@ -22,7 +22,7 @@ model User {
   interests Interest[]
   createdAt DateTime   @default(now())
   updatedAt DateTime   @updatedAt
-  zoneId    Int
+  zoneId    String
   ownerId   Int?
 }
 
@@ -40,12 +40,12 @@ model Post {
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
   userId     Int?
-  zoneId     Int
+  zoneId     String
   categoryId Int
 }
 
 model Zone {
-  id        Int      @id
+  id        String   @id @unique
   name      String   @unique
   users     User[]
   posts     Post[]
