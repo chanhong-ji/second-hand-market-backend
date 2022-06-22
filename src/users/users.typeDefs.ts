@@ -6,6 +6,8 @@ export default gql`
     name: String!
     phone: Int!
     avatar: String
+    following: [User]!
+    followerCount: Int!
     followingCount: Int!
     postsCount: Int!
     dealtCount: Int!

@@ -19,7 +19,6 @@ const resolvers: Resolvers = {
               following: { connect: { id } },
             },
           });
-          console.log('get following');
         } else {
           await client.user.update({
             where: { id: loggedInUser.id },
@@ -27,7 +26,6 @@ const resolvers: Resolvers = {
               following: { disconnect: { id } },
             },
           });
-          console.log('get unfollow');
         }
         return { ok: true };
       } catch (error) {

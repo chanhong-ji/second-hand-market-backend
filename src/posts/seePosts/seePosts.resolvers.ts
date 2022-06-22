@@ -20,6 +20,7 @@ const resolvers: Resolvers = {
             category: {
               name: categoryName,
             },
+            dealt: false,
           },
           take: PER_PAGE,
           ...(page && { skip: PER_PAGE * (page - 1) }),
@@ -39,6 +40,7 @@ const resolvers: Resolvers = {
         posts = await client.post.findMany({
           where: {
             zoneId: zoneIdProcess(zoneFirst, zoneSecond),
+            dealt: false,
           },
           take: PER_PAGE,
           ...(page && { skip: PER_PAGE * (page - 1) }),

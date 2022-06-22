@@ -5,12 +5,18 @@ const PER_PAGE = 9;
 
 const resolvers: Resolvers = {
   User: {
-    followingCount: ({ id }) =>
+    followerCount: ({ id }) =>
       client.user.count({
         where: {
           following: { some: { id } },
         },
       }),
+    followingCount: async ({ id }) => {
+      const li = await client.user
+        .findUnique({ where: { id }, select: { id: true } })
+        .following({ select: { id: true } });
+      return li.length;
+    },
 
     dealtCount: ({ id }) =>
       client.post.count({
