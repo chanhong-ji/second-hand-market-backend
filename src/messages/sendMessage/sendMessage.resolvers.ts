@@ -1,7 +1,10 @@
+import { connect } from 'http2';
 import client from '../../client';
+import pubsub from '../../pubsub';
 import { createErrorMessage } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../../users/users.utils';
+import { UPDATE_ROOM } from '../updateRoom/updateRoom.resolvers';
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -19,8 +22,9 @@ const resolvers: Resolvers = {
               id: true,
             },
           });
+          let message;
           if (room) {
-            await client.message.create({
+            message = await client.message.create({
               data: {
                 payload,
                 userId: loggedInUser.id,
@@ -28,20 +32,25 @@ const resolvers: Resolvers = {
               },
             });
           } else {
-            await client.room.create({
+            message = await client.message.create({
               data: {
-                users: {
-                  connect: [{ id: loggedInUser.id }, { id: toUserId }],
-                },
-                messages: {
+                user: { connect: { id: loggedInUser.id } },
+                payload,
+                room: {
                   create: {
-                    payload,
-                    userId: loggedInUser.id,
+                    users: {
+                      connect: [{ id: loggedInUser.id }, { id: toUserId }],
+                    },
                   },
                 },
               },
             });
           }
+          pubsub.publish(UPDATE_ROOM, {
+            updateRoom: {
+              message,
+            },
+          });
           return { ok: true };
         } catch (e) {
           return { ok: false, error: createErrorMessage('sendMessage', e) };

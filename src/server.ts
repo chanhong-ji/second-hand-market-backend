@@ -6,6 +6,8 @@ import http from 'http';
 import schema from './schema';
 import { getMeUser } from './users/users.utils';
 import { graphqlUploadExpress } from 'graphql-upload';
+import { execute, subscribe } from 'graphql';
+import { SubscriptionServer } from 'subscriptions-transport-ws';
 
 async function startApolloServer() {
   const app = express();
@@ -18,8 +20,36 @@ async function startApolloServer() {
         return { loggedInUser: await getMeUser(token) };
       }
     },
-    plugins: [ApolloServerPluginDrainHttpServer({ httpServer })],
+    plugins: [
+      ApolloServerPluginDrainHttpServer({ httpServer }),
+      {
+        async serverWillStart() {
+          return {
+            async drainServer() {
+              subscriptionServer.close();
+            },
+          };
+        },
+      },
+    ],
   });
+
+  const subscriptionServer = SubscriptionServer.create(
+    {
+      schema,
+      execute,
+      subscribe,
+      async onConnect(ctx: any) {
+        if (ctx?.token) {
+          return { loggedInUser: await getMeUser(ctx.token) };
+        }
+      },
+    },
+    {
+      server: httpServer,
+      path: server.graphqlPath,
+    }
+  );
 
   await server.start();
   app.use(graphqlUploadExpress());
