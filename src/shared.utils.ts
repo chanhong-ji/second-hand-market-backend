@@ -49,3 +49,7 @@ export const zoneNameProcess = (zoneId: string) => {
 export const zoneIdProcess = (first: number, second: number): string => {
   return String(first) + String(second).padStart(2, '0');
 };
+
+export const createErrorMessage = (resolver: string, error: any): string => {
+  return `DB error from ${resolver} resolver:${error}`;
+};
