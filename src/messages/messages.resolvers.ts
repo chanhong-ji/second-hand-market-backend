@@ -32,10 +32,13 @@ const resolvers: Resolvers = {
     messages: ({ id }, { offset }) =>
       client.message.findMany({
         where: {
-          id,
+          roomId: id,
         },
         take: PER_PAGE,
         skip: offset ? offset : 0,
+        orderBy: {
+          createdAt: 'desc',
+        },
       }),
   },
 };

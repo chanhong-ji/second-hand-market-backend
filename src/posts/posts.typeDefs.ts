@@ -8,11 +8,15 @@ export default gql`
     price: Int!
     dealt: Boolean!
     user: User!
-    photos: [String!]!
+    userId: Int!
     zone: Zone!
+    zoneId: Int!
+    photos: [String!]!
     category: Category!
+    rooms: [Room]!
     createdAt: String!
     updatedAt: String!
+
     isMine: Boolean!
     isInterest: Boolean!
     interestsCount: Int!

@@ -18,9 +18,9 @@ const resolvers: Resolvers = {
             },
             select: {
               id: true,
-              users: {
-                select: { id: true, name: true },
-              },
+              createdAt: true,
+              updatedAt: true,
+              postId: true,
             },
             take: PER_PAGE,
             skip: offset ? offset : 0,

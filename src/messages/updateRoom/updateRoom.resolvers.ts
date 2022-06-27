@@ -18,12 +18,11 @@ const resolvers = {
         return pubsub.asyncIterator([UPDATE_ROOM]);
       },
 
-      resolve: (
-        { updateRoom: { message } }: any,
+      resolve: async (
+        { updateRoom: { result } }: any,
         { roomId }: any,
-        { loggedInUser }: any,
-        _: any
-      ) => message,
+        { loggedInUser }: any
+      ) => result,
     },
   },
 };

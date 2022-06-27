@@ -10,6 +10,16 @@ const resolvers: Resolvers = {
           id: roomId,
           users: { some: { id: loggedInUser.id } },
         },
+        include: {
+          post: {
+            select: {
+              id: true,
+              title: true,
+              price: true,
+              dealt: true,
+            },
+          },
+        },
       })
     ),
   },

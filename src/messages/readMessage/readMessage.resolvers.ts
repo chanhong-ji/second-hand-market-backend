@@ -1,7 +1,9 @@
 import client from '../../client';
+import pubsub from '../../pubsub';
 import { createErrorMessage } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../../users/users.utils';
+import { UPDATE_ROOM } from '../updateRoom/updateRoom.resolvers';
 
 const resolvers: Resolvers = {
   Mutation: {
@@ -24,7 +26,7 @@ const resolvers: Resolvers = {
           });
           if (!message) throw new Error('Message not found');
 
-          await client.message.update({
+          const updatedMessage = await client.message.update({
             where: {
               id: messageId,
             },
@@ -32,7 +34,15 @@ const resolvers: Resolvers = {
               read: true,
             },
           });
-          return { ok: true };
+          pubsub.publish(UPDATE_ROOM, {
+            updateRoom: {
+              result: {
+                message: updatedMessage,
+                read: true,
+              },
+            },
+          });
+          return { ok: true, id: message.id };
         } catch (e) {
           return { ok: false, error: createErrorMessage('readMessage', e) };
         }

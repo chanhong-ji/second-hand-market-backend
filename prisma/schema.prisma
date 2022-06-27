@@ -33,15 +33,16 @@ model Post {
   price      Int
   photos     String[]
   dealt      Boolean    @default(false)
-  user       User?      @relation(fields: [userId], references: [id])
+  user       User       @relation(fields: [userId], references: [id])
   zone       Zone       @relation(fields: [zoneId], references: [id])
   category   Category   @relation(fields: [categoryId], references: [id])
   Interest   Interest[]
   createdAt  DateTime   @default(now())
   updatedAt  DateTime   @updatedAt
-  userId     Int?
+  userId     Int
   zoneId     String
   categoryId Int
+  rooms      Room[]
 }
 
 model Zone {
@@ -77,6 +78,8 @@ model Room {
   id        Int       @id @default(autoincrement())
   users     User[]
   messages  Message[]
+  post      Post      @relation(fields: [postId], references: [id])
+  postId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt
 }

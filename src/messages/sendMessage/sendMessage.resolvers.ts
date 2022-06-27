@@ -1,4 +1,3 @@
-import { connect } from 'http2';
 import client from '../../client';
 import pubsub from '../../pubsub';
 import { createErrorMessage } from '../../shared.utils';
@@ -9,19 +8,25 @@ import { UPDATE_ROOM } from '../updateRoom/updateRoom.resolvers';
 const resolvers: Resolvers = {
   Mutation: {
     sendMessage: resolverProtected(
-      async (_, { toUserId, payload }, { loggedInUser }) => {
+      async (_, { postId, payload }, { loggedInUser }) => {
         try {
           const room = await client.room.findFirst({
             where: {
-              AND: [
-                { users: { some: { id: toUserId } } },
-                { users: { some: { id: loggedInUser.id } } },
-              ],
+              postId,
+              users: {
+                some: { id: loggedInUser.id },
+              },
             },
             select: {
               id: true,
             },
           });
+          const owner = await client.post.findUnique({
+            where: { id: postId },
+            select: { userId: true },
+          });
+          if (!owner) throw new Error('Owner not found');
+
           let message;
           if (room) {
             message = await client.message.create({
@@ -39,8 +44,9 @@ const resolvers: Resolvers = {
                 room: {
                   create: {
                     users: {
-                      connect: [{ id: loggedInUser.id }, { id: toUserId }],
+                      connect: [{ id: loggedInUser.id }, { id: owner.userId }],
                     },
+                    postId,
                   },
                 },
               },
@@ -48,7 +54,10 @@ const resolvers: Resolvers = {
           }
           pubsub.publish(UPDATE_ROOM, {
             updateRoom: {
-              message,
+              result: {
+                message,
+                read: false,
+              },
             },
           });
           return { ok: true };
