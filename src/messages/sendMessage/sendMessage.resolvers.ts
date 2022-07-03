@@ -60,7 +60,7 @@ const resolvers: Resolvers = {
               },
             },
           });
-          return { ok: true };
+          return { ok: true, ...(!!!room && { id: message.roomId }) };
         } catch (e) {
           return { ok: false, error: createErrorMessage('sendMessage', e) };
         }

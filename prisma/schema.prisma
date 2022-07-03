@@ -78,7 +78,7 @@ model Room {
   id        Int       @id @default(autoincrement())
   users     User[]
   messages  Message[]
-  post      Post      @relation(fields: [postId], references: [id])
+  post      Post      @relation(fields: [postId], references: [id], onDelete: Cascade)
   postId    Int
   createdAt DateTime  @default(now())
   updatedAt DateTime  @updatedAt

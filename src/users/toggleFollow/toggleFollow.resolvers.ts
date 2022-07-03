@@ -27,7 +27,7 @@ const resolvers: Resolvers = {
             },
           });
         }
-        return { ok: true };
+        return { ok: true, id };
       } catch (error) {
         return {
           ok: false,
