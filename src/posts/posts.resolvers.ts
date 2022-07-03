@@ -54,6 +54,20 @@ const resolvers: Resolvers = {
     countPost: ({ id }) =>
       client.post.count({ where: { zoneId: id, dealt: false } }),
   },
+
+  Interest: {
+    post: ({ postId }) =>
+      client.post.findUnique({
+        where: { id: postId },
+        select: {
+          id: true,
+          title: true,
+          price: true,
+          dealt: true,
+          photos: true,
+        },
+      }),
+  },
 };
 
 export default resolvers;

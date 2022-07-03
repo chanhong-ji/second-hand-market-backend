@@ -53,6 +53,13 @@ const resolvers: Resolvers = {
       });
       return !!following ? true : false;
     },
+
+    interestCount: ({ id }) =>
+      client.interest.count({
+        where: {
+          userId: id,
+        },
+      }),
   },
 };
 

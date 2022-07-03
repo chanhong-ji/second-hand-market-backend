@@ -20,6 +20,7 @@ export default gql`
     isMine: Boolean!
     isInterest: Boolean!
     interestsCount: Int!
+    roomCount: Int!
   }
 
   type Category {
@@ -36,6 +37,15 @@ export default gql`
     name: String!
     countUser: Int!
     countPost: Int!
+    createdAt: String!
+    updatedAt: String!
+  }
+
+  type Interest {
+    id: Int!
+    post: Post!
+    postId: Int!
+    userId: Int!
     createdAt: String!
     updatedAt: String!
   }
