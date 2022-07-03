@@ -41,6 +41,24 @@ const resolvers: Resolvers = {
 
     interestsCount: ({ id }) =>
       client.interest.count({ where: { postId: id } }),
+
+    hasRoom: async ({ id }, _, { loggedInUser }) => {
+      if (!loggedInUser) return -1;
+      const room = await client.room.findFirst({
+        where: {
+          postId: id,
+          users: {
+            some: { id: loggedInUser.id },
+          },
+        },
+        select: {
+          id: true,
+        },
+      });
+      return room?.id ?? -1;
+    },
+
+    roomCount: ({ id }) => client.room.count({ where: { postId: id } }),
   },
 
   Category: {

@@ -20,6 +20,7 @@ export default gql`
     isMine: Boolean!
     isInterest: Boolean!
     interestsCount: Int!
+    hasRoom: Int!
     roomCount: Int!
   }
 
