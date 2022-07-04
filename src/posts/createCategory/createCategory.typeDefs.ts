@@ -6,6 +6,6 @@ export default gql`
     count: Int!
   }
   type Mutation {
-    createCategory(names: [String!]!): CreateCateogoryResult!
+    createCategory: CreateCateogoryResult!
   }
 `;
