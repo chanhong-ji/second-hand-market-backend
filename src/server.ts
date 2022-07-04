@@ -34,6 +34,7 @@ async function startApolloServer() {
         },
       },
     ],
+    introspection: true,
   });
 
   const subscriptionServer = SubscriptionServer.create(
