@@ -4,13 +4,11 @@ import { Resolvers } from '../../types';
 
 const resolvers: Resolvers = {
   Mutation: {
-    createCategory: async (_, { names }) => {
-      const namesAfter = names.filter((name: string) =>
-        CATEGORY_LIST.includes(name)
-      );
+    createCategory: async () => {
+      const names = CATEGORY_LIST;
 
       const { count } = await client.category.createMany({
-        data: namesAfter.map((name: string) => ({
+        data: names.map((name: string) => ({
           name,
         })),
         skipDuplicates: true,
