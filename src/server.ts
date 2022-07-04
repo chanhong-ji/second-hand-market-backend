@@ -9,6 +9,8 @@ import { graphqlUploadExpress } from 'graphql-upload';
 import { execute, subscribe } from 'graphql';
 import { SubscriptionServer } from 'subscriptions-transport-ws';
 
+const PORT = process.env.PORT;
+
 async function startApolloServer() {
   const app = express();
   const httpServer = http.createServer(app);
@@ -54,9 +56,7 @@ async function startApolloServer() {
   await server.start();
   app.use(graphqlUploadExpress());
   server.applyMiddleware({ app });
-  await new Promise((resolve: any) =>
-    httpServer.listen({ port: 4000 }, resolve)
-  );
+  await new Promise((resolve: any) => httpServer.listen(PORT, resolve));
   console.log(`🚀 Server ready at http://localhost:4000${server.graphqlPath}`);
 }
 
