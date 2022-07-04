@@ -19,11 +19,13 @@ const resolvers: Resolvers = {
         if (ok) {
           // Issue token
           try {
-            const token = await jwt.sign(
-              { id: user.id },
-              process.env.PRIVATE_KEY
-            );
-            return { ok: true, token };
+            if (process.env.PRIVATE_KEY) {
+              const token = await jwt.sign(
+                { id: user.id },
+                process.env.PRIVATE_KEY
+              );
+              return { ok: true, token };
+            }
           } catch (error) {
             return { ok: false, error: 'jwt sign error:' + error };
           }

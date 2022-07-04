@@ -1,12 +1,14 @@
 import AWS from 'aws-sdk';
 import { zoneFirst, zoneSecond } from './dataList';
-AWS.config.update({
-  credentials: {
-    accessKeyId: process.env.AWS_KEY,
-    secretAccessKey: process.env.AWS_SECRET,
-  },
-  region: 'ap-northeast-2',
-});
+if (process.env.AWS_KEY && process.env.AWS_SECRET) {
+  AWS.config.update({
+    credentials: {
+      accessKeyId: process.env.AWS_KEY,
+      secretAccessKey: process.env.AWS_SECRET,
+    },
+    region: 'ap-northeast-2',
+  });
+}
 
 export const uploadToS3 = async (file: any, userId: number, path: string) => {
   const { filename, createReadStream } = await file;

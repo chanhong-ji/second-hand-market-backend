@@ -10,7 +10,7 @@ export const getMeUser = async (token: string) => {
   try {
     const { id } = (await jwt.verify(
       token,
-      process.env.PRIVATE_KEY
+      process.env.PRIVATE_KEY ?? ''
     )) as JwtPayload;
     const user = await client.user.findUnique({ where: { id } });
     return user;
