@@ -9,7 +9,6 @@ export default gql`
     dealt: Boolean!
     user: User!
     userId: Int!
-    zone: Zone!
     zoneId: Int!
     photos: [String!]!
     category: Category!
@@ -17,6 +16,7 @@ export default gql`
     createdAt: String!
     updatedAt: String!
 
+    zoneName: String!
     isMine: Boolean!
     isInterest: Boolean!
     interestsCount: Int!

@@ -13,7 +13,7 @@ const resolvers: Resolvers = {
           zoneId: zoneIdProcess(zoneFirst, zoneSecond),
         },
         take: POST_N,
-        ...(page && POST_N * (page - 1)),
+        ...(page && { skip: POST_N * (page - 1) }),
       });
 
       const totalResults = await client.post.count({

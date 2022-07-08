@@ -8,6 +8,7 @@ const resolvers: Resolvers = {
       async (_, { userId, offset }, { loggedInUser }) => {
         try {
           if (userId !== loggedInUser.id) return [];
+
           const following = await client.user
             .findUnique({
               where: { id: loggedInUser.id },

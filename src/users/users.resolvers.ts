@@ -11,6 +11,7 @@ const resolvers: Resolvers = {
           following: { some: { id } },
         },
       }),
+
     followingCount: async ({ id }) => {
       const li = await client.user
         .findUnique({ where: { id }, select: { id: true } })
@@ -26,12 +27,13 @@ const resolvers: Resolvers = {
         },
       }),
 
-    zone: ({ id }) =>
-      client.user
-        .findUnique({ where: { id }, select: { id: true } })
-        .zone({ select: { id: true, name: true } }),
-    zoneFirst: ({ zoneId }) => +zoneId.slice(0, -2),
-    zoneSecond: ({ zoneId }) => +zoneId.slice(-2),
+    zoneName: async ({ zoneId }) => {
+      const zone = await client.zone.findUnique({
+        where: { id: zoneId },
+        select: { name: true },
+      });
+      return zone?.name ?? '';
+    },
 
     postsCount: ({ id }) => client.post.count({ where: { userId: id } }),
 
@@ -46,12 +48,13 @@ const resolvers: Resolvers = {
       }),
 
     isMe: ({ id }, _, { loggedInUser }) => Boolean(id === loggedInUser?.id),
+
     isFollowing: async ({ id }, _, { loggedInUser }) => {
       if (!loggedInUser || id === loggedInUser?.id) return false;
       const following = await client.user.count({
         where: { id: loggedInUser.id, following: { some: { id } } },
       });
-      return !!following ? true : false;
+      return following ? true : false;
     },
 
     interestCount: ({ id }) =>

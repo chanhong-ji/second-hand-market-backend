@@ -1,4 +1,5 @@
 import client from '../../client';
+import { createErrorMessage } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../../users/users.utils';
 
@@ -38,7 +39,7 @@ const resolvers: Resolvers = {
         } catch (error) {
           return {
             ok: false,
-            error: `DB error from editPost resolver:${error}`,
+            error: createErrorMessage('editPost', error),
           };
         }
       }

@@ -1,6 +1,10 @@
 import client from '../../client';
 import { zoneFirst, zoneSecond } from '../../dataList';
-import { zoneIdProcess, zoneNameProcess } from '../../shared.utils';
+import {
+  createErrorMessage,
+  zoneIdProcess,
+  zoneNameProcess,
+} from '../../shared.utils';
 import { Resolvers } from '../../types';
 
 const resolvers: Resolvers = {
@@ -11,8 +15,8 @@ const resolvers: Resolvers = {
           for (let j = 0; j < zoneSecond[i].length; j++) {
             const zoneId = zoneIdProcess(i, j);
             const zoneName = zoneNameProcess(zoneId);
-
             if (!zoneName) continue;
+
             await client.zone.create({
               data: {
                 id: zoneId,
@@ -21,13 +25,14 @@ const resolvers: Resolvers = {
             });
           }
         }
+
+        return { ok: true };
       } catch (error) {
         return {
           ok: false,
-          error: `DB error from createZone resolver:${error}`,
+          error: createErrorMessage('createZone', error),
         };
       }
-      return { ok: true };
     },
   },
 };

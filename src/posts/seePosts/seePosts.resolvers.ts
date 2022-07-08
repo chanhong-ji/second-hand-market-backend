@@ -10,6 +10,7 @@ const resolvers: Resolvers = {
     seePosts: async (_, { categoryName, page, zoneFirst, zoneSecond }) => {
       let posts = [];
       let totalResults;
+
       if (categoryName) {
         if (!CATEGORY_LIST.includes(categoryName)) {
           return null;

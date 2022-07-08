@@ -9,18 +9,19 @@ const resolvers: Resolvers = {
         select: { id: true, name: true, avatar: true },
       }),
 
-    zone: ({ zoneId }) =>
-      client.zone.findUnique({
-        where: { id: zoneId },
-        select: { name: true, id: true },
-      }),
-
     category: ({ categoryId }) =>
       client.category.findUnique({
         where: { id: categoryId },
         select: { id: true, name: true },
       }),
 
+    zoneName: async ({ zoneId }) => {
+      const zone = await client.zone.findUnique({
+        where: { id: zoneId },
+        select: { name: true },
+      });
+      return zone?.name ?? '';
+    },
     isMine: ({ userId }, _, { loggedInUser }) =>
       Boolean(userId === loggedInUser?.id),
 

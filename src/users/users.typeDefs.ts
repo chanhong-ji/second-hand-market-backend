@@ -6,20 +6,19 @@ export default gql`
     name: String!
     phone: Int!
     avatar: String
+    zoneId: String!
+    posts(offset: Int): [Post]
+    createdAt: String!
+    updatedAt: String!
+
+    isMe: Boolean!
+    isFollowing: Boolean!
+    zoneName: String!
+    interestCount: Int!
     following: [User]!
     followerCount: Int!
     followingCount: Int!
     postsCount: Int!
     dealtCount: Int!
-    zone: Zone!
-    zoneId: String!
-    zoneFirst: Int
-    zoneSecond: Int
-    posts(offset: Int): [Post]
-    createdAt: String!
-    updatedAt: String!
-    isMe: Boolean!
-    isFollowing: Boolean!
-    interestCount: Int!
   }
 `;

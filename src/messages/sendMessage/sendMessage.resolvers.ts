@@ -21,11 +21,12 @@ const resolvers: Resolvers = {
               id: true,
             },
           });
-          const owner = await client.post.findUnique({
+
+          const post = await client.post.findUnique({
             where: { id: postId },
             select: { userId: true },
           });
-          if (!owner) throw new Error('Owner not found');
+          if (!post) throw new Error('Post not found');
 
           let message;
           if (room) {
@@ -44,7 +45,7 @@ const resolvers: Resolvers = {
                 room: {
                   create: {
                     users: {
-                      connect: [{ id: loggedInUser.id }, { id: owner.userId }],
+                      connect: [{ id: loggedInUser.id }, { id: post.userId }],
                     },
                     postId,
                   },

@@ -1,5 +1,5 @@
 import client from '../../client';
-import { uploadToS3 } from '../../shared.utils';
+import { createErrorMessage, uploadToS3 } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../../users/users.utils';
 
@@ -11,26 +11,23 @@ const resolvers: Resolvers = {
         { title, caption, price, photos: newPhotos, categoryName },
         { loggedInUser }
       ) => {
-        if (newPhotos?.length > 3)
-          return { ok: false, error: 'Photo should be less than 3' };
-        let photoUrls = [];
         try {
-          for (let photo of newPhotos) {
-            const location = await uploadToS3(
-              await photo,
-              loggedInUser.id,
-              'post'
-            );
-            photoUrls.push(location);
+          if (newPhotos?.length > 3)
+            throw new Error('Photo should be less than 3');
+          let photoUrls = [];
+          try {
+            for (let photo of newPhotos) {
+              const location = await uploadToS3(
+                await photo,
+                loggedInUser.id,
+                'post'
+              );
+              photoUrls.push(location);
+            }
+          } catch (error) {
+            throw new Error('AWS S3 upload error');
           }
-        } catch (error) {
-          return {
-            ok: false,
-            error: `S3 error from createPost resolver:${error}`,
-          };
-        }
 
-        try {
           await client.post.create({
             data: {
               title,
@@ -47,7 +44,7 @@ const resolvers: Resolvers = {
         } catch (error) {
           return {
             ok: false,
-            error: `DB error from createPost resolver:${error}`,
+            error: createErrorMessage('createPost', error),
           };
         }
       }

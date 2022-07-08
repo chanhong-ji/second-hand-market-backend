@@ -26,7 +26,6 @@ async function startApolloServer() {
       }
     },
     plugins: [
-      ApolloServerPluginLandingPageGraphQLPlayground(),
       ApolloServerPluginDrainHttpServer({ httpServer }),
       {
         async serverWillStart() {

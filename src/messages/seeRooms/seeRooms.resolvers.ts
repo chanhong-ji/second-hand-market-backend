@@ -6,30 +6,27 @@ const PER_PAGE = 10;
 
 const resolvers: Resolvers = {
   Query: {
-    seeRooms: resolverProtected(
-      async (_, { userId, offset }, { loggedInUser }) => {
-        try {
-          if (userId !== loggedInUser.id) throw new Error();
-          return client.room.findMany({
-            where: {
-              users: {
-                some: { id: userId },
-              },
+    seeRooms: resolverProtected(async (_, { offset }, { loggedInUser }) => {
+      try {
+        return client.room.findMany({
+          where: {
+            users: {
+              some: { id: loggedInUser.id },
             },
-            select: {
-              id: true,
-              createdAt: true,
-              updatedAt: true,
-              postId: true,
-            },
-            take: PER_PAGE,
-            skip: offset ? offset : 0,
-          });
-        } catch (error) {
-          return [];
-        }
+          },
+          select: {
+            id: true,
+            createdAt: true,
+            updatedAt: true,
+            postId: true,
+          },
+          take: PER_PAGE,
+          skip: offset ? offset : 0,
+        });
+      } catch (error) {
+        return [];
       }
-    ),
+    }),
   },
 };
 export default resolvers;
