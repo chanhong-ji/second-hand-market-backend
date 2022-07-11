@@ -9,7 +9,8 @@ export default gql`
     dealt: Boolean!
     user: User!
     userId: Int!
-    zoneId: Int!
+    zone: Zone!
+    zoneId: String!
     photos: [String!]!
     category: Category!
     rooms: [Room]!
@@ -33,8 +34,7 @@ export default gql`
   }
 
   type Zone {
-    id: Int!
-    code: Int!
+    id: String!
     name: String!
     countUser: Int!
     countPost: Int!

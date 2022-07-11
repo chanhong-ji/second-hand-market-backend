@@ -16,6 +16,7 @@ const resolvers: Resolvers = {
       }),
 
     zoneName: async ({ zoneId }) => {
+      if (!zoneId) return '';
       const zone = await client.zone.findUnique({
         where: { id: zoneId },
         select: { name: true },
