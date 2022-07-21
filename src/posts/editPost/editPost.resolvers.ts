@@ -35,7 +35,7 @@ const resolvers: Resolvers = {
               price,
             },
           });
-          return { ok: true };
+          return { ok: true, id };
         } catch (error) {
           return {
             ok: false,

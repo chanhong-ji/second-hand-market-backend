@@ -17,12 +17,12 @@ const resolvers: Resolvers = {
           let photoUrls = [];
           try {
             for (let photo of newPhotos) {
-              const location = await uploadToS3(
+              const photoUrl = await uploadToS3(
                 await photo,
                 loggedInUser.id,
                 'post'
               );
-              photoUrls.push(location);
+              photoUrls.push(photoUrl);
             }
           } catch (error) {
             throw new Error('AWS S3 upload error');
