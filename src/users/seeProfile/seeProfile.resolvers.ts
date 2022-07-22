@@ -4,9 +4,8 @@ import { resolverProtected } from '../users.utils';
 
 const resolvers: Resolvers = {
   Query: {
-    seeProfile: resolverProtected((_, { id }) =>
+    seeProfile: (_, { id }) =>
       client.user.findUnique({ where: { id } })
-    ),
   },
 };
 
