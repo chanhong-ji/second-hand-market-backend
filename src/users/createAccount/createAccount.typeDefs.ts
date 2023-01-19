@@ -5,7 +5,7 @@ export default gql`
     createAccount(
       name: String!
       password: String!
-      phone: Int!
+      phone: String!
       zoneFirst: Int!
       zoneSecond: Int!
     ): MutationResult!

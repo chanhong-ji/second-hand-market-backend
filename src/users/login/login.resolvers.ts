@@ -1,29 +1,27 @@
-import client from '../../client';
-import { Resolvers } from '../../types';
 import bcrypt from 'bcrypt';
 import jwt from 'jsonwebtoken';
 import { createErrorMessage } from '../../shared.utils';
+import client from '../../client';
+import { Resolvers } from '../../types';
+import config from '../../config';
 
 const resolvers: Resolvers = {
   Mutation: {
     login: async (_, { phone, password }) => {
       try {
-        const existingUser = await client.user.findUnique({
+        const user = await client.user.findUnique({
           where: { phone },
           select: { id: true, password: true },
         });
-        if (!existingUser) throw new Error('User not found with phone number.');
+        if (!user) throw new Error('User not found with phone number.');
 
-        const passwordMatch = await bcrypt.compare(
-          password,
-          existingUser?.password
-        );
+        const passwordMatch = await bcrypt.compare(password, user.password);
         if (!passwordMatch) throw new Error('Wrong Password');
 
-        const token = await jwt.sign(
-          { id: existingUser.id },
-          process.env?.PRIVATE_KEY ?? ''
-        );
+        const token = jwt.sign({ id: user.id }, config.jwt.secretKey, {
+          expiresIn: config.jwt.expiresInSec,
+        });
+
         return { ok: true, token };
       } catch (error) {
         return {

@@ -1,6 +1,7 @@
-import { Context, Resolver } from '../types';
 import jwt from 'jsonwebtoken';
 import client from '../client';
+import { Context, Resolver } from '../types';
+import config from '../config';
 
 interface JwtPayload {
   id: number;
@@ -10,7 +11,7 @@ export const getMeUser = async (token: string) => {
   try {
     const { id } = (await jwt.verify(
       token,
-      process.env.PRIVATE_KEY ?? ''
+      config.jwt.secretKey
     )) as JwtPayload;
     const user = await client.user.findUnique({ where: { id } });
     return user;

@@ -1,14 +1,13 @@
 import AWS from 'aws-sdk';
+import config from './config';
 import { zoneFirst, zoneSecond } from './dataList';
-if (process.env.AWS_KEY && process.env.AWS_SECRET) {
-  AWS.config.update({
-    credentials: {
-      accessKeyId: process.env.AWS_KEY,
-      secretAccessKey: process.env.AWS_SECRET,
-    },
-    region: 'ap-northeast-2',
-  });
-}
+AWS.config.update({
+  credentials: {
+    accessKeyId: config.aws.key,
+    secretAccessKey: config.aws.secretKey,
+  },
+  region: 'ap-northeast-2',
+});
 
 export const uploadToS3 = async (file: any, userId: number, path: string) => {
   const { filename, createReadStream } = await file;
@@ -53,5 +52,6 @@ export const zoneIdProcess = (first: number, second: number): string => {
 };
 
 export const createErrorMessage = (resolver: string, error: any): string => {
-  return `DB error from ${resolver} resolver:${error}`;
+  console.error(error);
+  return `DB error from ${resolver} resolver ${error}`;
 };

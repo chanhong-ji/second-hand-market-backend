@@ -1,6 +1,6 @@
+import bcrypt from 'bcrypt';
 import client from '../../client';
 import { Resolvers } from '../../types';
-import bcrypt from 'bcrypt';
 import { zoneIdProcess } from '../../shared.utils';
 
 const resolvers: Resolvers = {

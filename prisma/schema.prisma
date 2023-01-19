@@ -10,7 +10,7 @@ datasource db {
 model User {
   id        Int        @id @default(autoincrement())
   name      String
-  phone     Int        @unique
+  phone     String     @unique
   password  String
   avatar    String?
   onwer     User?      @relation("OwnerFollowing", fields: [ownerId], references: [id])

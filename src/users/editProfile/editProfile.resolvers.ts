@@ -1,3 +1,4 @@
+import bcrypt from 'bcrypt';
 import {
   createErrorMessage,
   deleteFromS3,
@@ -6,7 +7,6 @@ import {
 } from '../../shared.utils';
 import { Resolvers } from '../../types';
 import { resolverProtected } from '../users.utils';
-import bcrypt from 'bcrypt';
 import client from '../../client';
 
 const resolvers: Resolvers = {

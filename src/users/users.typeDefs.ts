@@ -4,7 +4,7 @@ export default gql`
   type User {
     id: Int!
     name: String!
-    phone: Int!
+    phone: String!
     avatar: String
     zoneId: String!
     posts(offset: Int): [Post]
