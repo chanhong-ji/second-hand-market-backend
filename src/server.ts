@@ -27,7 +27,7 @@ async function startApolloServer() {
     },
     plugins: [
       ApolloServerPluginDrainHttpServer({ httpServer }),
-      // ApolloServerPluginLandingPageGraphQLPlayground(),
+      ApolloServerPluginLandingPageGraphQLPlayground(),
       {
         async serverWillStart() {
           return {
@@ -38,7 +38,8 @@ async function startApolloServer() {
         },
       },
     ],
-    introspection: true,
+    introspection: true, //For deploy test
+    // introspection: process.env.NODE_ENV === 'dev',
   });
 
   const subscriptionServer = SubscriptionServer.create(

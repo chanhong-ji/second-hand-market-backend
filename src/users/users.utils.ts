@@ -8,11 +8,15 @@ interface JwtPayload {
 }
 
 export const getMeUser = async (token: string) => {
+  let decoded;
   try {
-    const { id } = (await jwt.verify(
-      token,
-      config.jwt.secretKey
-    )) as JwtPayload;
+    decoded = jwt.verify(token, config.jwt.secretKey);
+  } catch (error) {
+    return null;
+  }
+
+  try {
+    const { id } = decoded as JwtPayload;
     const user = await client.user.findUnique({ where: { id } });
     return user;
   } catch (error) {
